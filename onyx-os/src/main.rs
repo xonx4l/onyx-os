@@ -47,3 +47,14 @@ enum VgaColor {
     LightBrown = 14,
     White = 15,
 }
+
+fn vga_entry_color(fg: VgaColor, bg: VgaColor) -> u8 {
+    fg as u8 | (bg as u8) << 4 
+}
+
+fn vga_entry(uc: u8, color:u8) -> u16 {
+    uc as u16 | (color as u16) << 8 
+}
+
+const VGA_HEIGHT: usize = 80;
+const VGA_WIDTH: usize = 25;
