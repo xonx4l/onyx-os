@@ -58,3 +58,20 @@ fn vga_entry(uc: u8, color:u8) -> u16 {
 
 const VGA_HEIGHT: usize = 80;
 const VGA_WIDTH: usize = 25;
+
+struct TerminalWriter [
+    terminal_row: usize ,
+    terminal_column: usize,
+    terminal_color: u8,
+    terminal_buffer: *mut u16,
+]
+
+impl TerminalWriter {
+    fn new() -> TerminalWriter {
+        let terminal_row  = 0;
+        let terminal_column = 0;
+        let terminal_color =
+            vga_entry_color(VgaColor::LightGrey, VgaColor::Black);
+        let terminal_buffer = 0xB8000 as *mut u16;
+    }
+}
