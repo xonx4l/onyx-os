@@ -4,3 +4,25 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# No 'core' or 'std' listed here, they are implicitly available
+# You might have other dependencies for hardware interaction, e.g.:
+# cortex-m = { version = "0.7.7", features = ["critical-section-impl"] }
+# cortex-m-rt = { version = "0.7.0", features = ["device"] }
+# panic-halt = "0.2.0" # A simple panic handler for no_std (often you'd write your own)
+
+[profile.dev]
+# Optimize for size/speed even in dev for embedded
+opt-level = "s" # 's' for size, 'z' for even smaller
+debug = true
+panic = "abort" # Essential for custom panic handling in no_std
+
+[profile.release]
+opt-level = "s"
+debug = true # Keep debug info for release builds for better debugging
+panic = "abort"
+
+# You might have a `target` section for specific compilation flags
+# [target.'cfg(target_arch = "arm")']
+# rustflags = [
+#     "-C", "link-arg=-Tlink.x", # Linker script for your hardware
+# ]
