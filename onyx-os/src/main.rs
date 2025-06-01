@@ -73,5 +73,32 @@ impl TerminalWriter {
         let terminal_color =
             vga_entry_color(VgaColor::LightGrey, VgaColor::Black);
         let terminal_buffer = 0xB8000 as *mut u16;
+        for y in 0 ..VGA_HEIGHT{
+            for x in 0..VGA_WIDTH {
+                let index = y * VGA_WIDTH + x;
+                unsafe {
+                    *terminal_buffer.add(index) = vga_entry(b' ', terminal_color);
+                }
+            }
+        }
+
+        TerminalWriter{
+            terminal_row,
+            terminal_column,
+            terminal_color,
+            terminal_buffer,
+        }
+    }
+
+    #[allow(dead_code)]
+    fn set_color(&mut self, color:u8) {
+        self.terminal_color = color;
+    }
+
+    fn put_entry_at(&mut self, c: u8, color: u8, x: usize, y:usize){
+        let index = y * VGA_HEIGHT + x;
+        unsafe {
+            *self.terminal_buffer.add(index) = vga_entry(c, color);
+        }
     }
 }
